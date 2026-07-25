@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>QuizMind AI | Quiz Mode</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+body{
+    background:#f5f7fb;
+}
+
+.hero{
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:white;
+    padding:30px;
+    margin-bottom:30px;
+}
+
+.card{
+    border:none;
+    border-radius:18px;
+}
+
+.option{
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    margin-top:10px;
+    transition:.2s;
+}
+
+.option:hover{
+    background:#eef3ff;
+}
+
+.timer{
+    font-size:22px;
+    font-weight:bold;
+    color:#dc3545;
+}
+
+.progress{
+    height:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="hero">
+
+<div class="container text-center">
+
+<h1>📝 Quiz Mode</h1>
+
+<p>Answer all questions before time runs out.</p>
+
+<h3 class="timer">
+
+⏳ Time Left:
+<span id="timer">
+10:00
+</span>
+
+</h3>
+
+</div>
+
+</div>
+
+<div class="container">
+
+<div class="progress mb-4">
+
+<div
+class="progress-bar progress-bar-striped progress-bar-animated"
+style="width:100%">
+</div>
+
+</div>
+
+<form
+id="quizForm"
+action="/submit-quiz"
+method="POST">
+
+{% for mcq in mcqs %}
+
+{% set question_index=loop.index0 %}
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h5>
+
+Question {{ loop.index }} of {{ mcqs|length }}
+
+</h5>
+
+<hr>
+
+<h4>
+
+{{ mcq["question"] }}
+
+</h4>
+
+{% for option in mcq["options"] %}
+
+<label class="option d-block">
+
+<input
+class="form-check-input me-2"
+type="radio"
+name="q{{ question_index }}"
+value="{{ option }}"
+required>
+
+{{ option }}
+
+</label>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endfor %}
+
+<button
+class="btn btn-success btn-lg w-100">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+Submit Quiz
+
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+let totalSeconds=600;
+
+const timer=document.getElementById("timer");
+
+const form=document.getElementById("quizForm");
+
+function updateTimer(){
+
+let minutes=Math.floor(totalSeconds/60);
+
+let seconds=totalSeconds%60;
+
+timer.innerHTML=
+String(minutes).padStart(2,"0")
++
+":"
++
+String(seconds).padStart(2,"0");
+
+if(totalSeconds<=0){
+
+alert("Time is over! Quiz submitted automatically.");
+
+form.submit();
+
+}
+
+totalSeconds--;
+
+}
+
+setInterval(updateTimer,1000);
+
+</script>
+
+</body>
+
+</html>

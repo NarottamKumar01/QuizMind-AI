@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>QuizMind AI | Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+
+        body{
+            background:#f4f7fc;
+        }
+
+        .navbar{
+            background:linear-gradient(135deg,#4f46e5,#7c3aed);
+        }
+
+        .stat-card{
+            border:none;
+            border-radius:18px;
+            transition:.3s;
+        }
+
+        .stat-card:hover{
+            transform:translateY(-6px);
+        }
+
+        .icon{
+            font-size:40px;
+        }
+
+        .value{
+            font-size:32px;
+            font-weight:bold;
+        }
+
+        footer{
+            margin-top:60px;
+            text-align:center;
+            color:gray;
+            padding:20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-dark">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="/">
+🤖 QuizMind AI
+</a>
+
+<a href="/" class="btn btn-light">
+Generate Quiz
+</a>
+
+</div>
+
+</nav>
+
+<div class="container mt-5">
+
+<h2 class="mb-4">
+
+📊 Dashboard
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card shadow stat-card p-4 text-center">
+
+<div class="icon">
+📝
+</div>
+
+<div class="value">
+
+{{ total_quizzes }}
+
+</div>
+
+<p class="mb-0">
+Total Quizzes
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card shadow stat-card p-4 text-center">
+
+<div class="icon">
+❓
+</div>
+
+<div class="value">
+
+{{ total_questions }}
+
+</div>
+
+<p class="mb-0">
+Questions Attempted
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card shadow stat-card p-4 text-center">
+
+<div class="icon">
+🎯
+</div>
+
+<div class="value">
+
+{{ average_score }}%
+
+</div>
+
+<p class="mb-0">
+Average Score
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card shadow stat-card p-4 text-center">
+
+<div class="icon">
+🏆
+</div>
+
+<div class="value">
+
+{{ best_score }}
+
+</div>
+
+<p class="mb-0">
+Best Score
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mt-5">
+
+<div class="card-header bg-primary text-white">
+
+<h4 class="mb-0">
+
+Recent Quiz History
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+{% if recent_quizzes %}
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Subject</th>
+<th>Topic</th>
+<th>Difficulty</th>
+<th>Score</th>
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for quiz in recent_quizzes %}
+
+<tr>
+
+<td>{{ quiz.id }}</td>
+
+<td>{{ quiz.subject }}</td>
+
+<td>{{ quiz.topic }}</td>
+
+<td>{{ quiz.difficulty }}</td>
+
+<td>
+
+<span class="badge bg-success">
+
+{{ quiz.score }}/{{ quiz.total_questions }}
+
+</span>
+
+</td>
+
+<td>
+
+{{ quiz.created_at }}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+
+No quiz history available.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+<div class="text-center mt-4">
+
+<a href="/" class="btn btn-primary">
+
+Generate New Quiz
+
+</a>
+
+<a href="/history" class="btn btn-outline-dark">
+
+View Full History
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+Built with ❤️ using Flask + Gemini AI
+
+</footer>
+
+</body>
+
+</html>
